@@ -1,20 +1,22 @@
 {
     "compilerOptions": {
         "module": "commonjs",
-        "esModuleInterop": true,
-        "target": "es6",
+        "declaration": true,
+        "removeComments": true,
         "noImplicitAny": true,
-        "moduleResolution": "node",
+        "alwaysStrict": true,
+        "charset": "utf-8",
+        "allowSyntheticDefaultImports": true,
+        "target": "es2017",
         "sourceMap": true,
-        "outDir": "dist",
-        "baseUrl": ".",
-        "paths": {
-            "*": [
-                "node_modules/*"
-            ]
-        }
-    },
-    "include": [
-        "src/**/*"
-    ]
+        "outDir": "./dist",
+        "esModuleInterop": true,
+        "baseUrl": "./",
+        "incremental": true,
+        "types": [
+            "node",
+            "express",
+            "sequelize"
+        ],
+    }
 }
