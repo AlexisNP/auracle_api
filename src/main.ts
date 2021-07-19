@@ -1,20 +1,23 @@
+/**
+ * Dependencies
+ */
+
+// .env Data
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-// Dependencies
+// Packages
 import morgan from 'morgan';
 import helmet from 'helmet';
 import express from 'express'
 
 import { AuracleApi } from './common/classes/AuracleApi'
+import { AuracleDatabaseDriver } from './common/database'
 
-// Database
-import { AuracleDatabaseDriver } from './common/database';
-
-const port = Number(process.env.API_PORT);
+const apiPort = process.env.API_PORT
 
 const app = new AuracleApi({
-    port: port,
+    port: apiPort,
     middlewares: [],
     modules: [
         express.json({ limit: '10kb' }),
@@ -22,23 +25,12 @@ const app = new AuracleApi({
         helmet()
     ],
     database: AuracleDatabaseDriver
-});
+})
 
+// Listens on apiPort...
 app.listen()
-  
-// const routes = require('./routes');
 
-// Builds app w/ express
-// let app = express();
-// app.use(bodyParser.json({ limit: '10kb' }));
-// app.use(cors({
-//     origin: [
-//         "http://localhost:8080",
-//     ],
-//     credentials: true,
-// }));
-// app.use(morgan('dev'));
-// app.use(helmet());
+// const routes = require('./routes');
 
 // // Server
 // app.listen(port, () => console.log(`App listening on port ${port}`));

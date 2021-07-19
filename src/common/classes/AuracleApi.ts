@@ -11,14 +11,14 @@ export class AuracleApi {
     private database?: Sequelize;
 
     constructor(init: {
-        port: number
+        port: any
         middlewares: any
         // controllers: Array<ControllerBase>
         modules?: Array<any>
         database?: Sequelize
     }) {
         this.app = express()
-        this.port = init.port
+        this.port = Number(init.port)
         this.database = init.database
 
         if (init.modules) {
