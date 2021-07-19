@@ -1,5 +1,5 @@
 import express, { Application } from 'express'
-import { Sequelize } from 'sequelize/types'
+import { Sequelize } from 'sequelize'
 
 // import ControllerBase from './class/controller.base'
 
@@ -72,19 +72,6 @@ export class AuracleApi {
     public listen = () => {
         this.app.listen(this.port, () => {
             console.log(`App listening on port ${this.port}`)
-        })
-    }
-
-    public close = async () => {
-        console.log('Closing the app...')
-
-        console.log('Closing database...')
-        this.database.close().then(() => {
-            console.log('App was successfully closed.')
-        })
-        .catch((err) => {
-            console.error('Encountered an error while closing !')
-            console.error(err)
         })
     }
 }
