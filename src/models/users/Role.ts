@@ -1,30 +1,26 @@
 import { DataTypes, Model, Optional } from "sequelize";
 
-import { AuracleDatabaseDriver } from "../../";
+import { AuracleDatabaseDriver } from "../../common/classes/AuracleDatabaseDriver";
 
-interface SchoolAttributes {
+interface RoleAttributes {
     id: number
     name: string
     description: string
-
-    published: boolean
 }
 
-interface SchoolCreationAttributes extends Optional<SchoolAttributes, 'id'> { }
+interface RoleCreationAttributes extends Optional<RoleAttributes, 'id'> { }
 
-class School extends Model<SchoolAttributes, SchoolCreationAttributes> implements SchoolAttributes {
+class Role extends Model<RoleAttributes, RoleCreationAttributes> implements RoleAttributes {
     public id!: number
     public name!: string
     public description!: string
-
-    public published: boolean
 
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
 }
 
 export default () => {
-    School.init(
+    Role.init(
         {
             id: {
                 type: DataTypes.INTEGER.UNSIGNED,
@@ -34,20 +30,16 @@ export default () => {
             name: {
                 type: DataTypes.STRING,
                 allowNull: false,
-                unique: true,
+                unique: true
             },
             description: {
                 type: DataTypes.STRING,
                 allowNull: false,
+                unique: true
             },
-
-            published: {
-                type: DataTypes.BOOLEAN,
-                defaultValue: false
-            }
         },
         {
-            tableName: 'school',
+            tableName: 'role',
             sequelize: AuracleDatabaseDriver,
         }
     )

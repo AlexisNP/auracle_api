@@ -12,7 +12,7 @@ import helmet from 'helmet';
 import express from 'express'
 
 import { AuracleApi } from './common/classes/AuracleApi'
-import { AuracleDatabaseDriver } from './common/database'
+import { AuracleDatabaseDriver } from './common/classes/AuracleDatabaseDriver'
 
 const apiPort = process.env.API_PORT
 

@@ -1,6 +1,6 @@
 import { DataTypes, Model, Optional } from "sequelize";
 
-import { AuracleDatabaseDriver } from "../../";
+import { AuracleDatabaseDriver } from "../../common/classes/AuracleDatabaseDriver";
 
 interface SpellAttributes {
     id: number

@@ -1,5 +1,5 @@
 import { Model, ModelOptions, Options, Sequelize } from 'sequelize'
-import registerModels from './models'
+import registerModels from '../../models'
 
 const tablePrefix = 'au_'
 
@@ -22,7 +22,7 @@ const driverOptions: Options = {
      * Docs : https://sequelize.org/master/manual/hooks.html
      */
     hooks: {
-        beforeDefine: (model: ModelOptions<Model<any, any>>) => {
+        beforeDefine: (columns: any, model: ModelOptions<Model<any, any>>) => {
             model.tableName = tablePrefix + model.name.plural
         }
     }
