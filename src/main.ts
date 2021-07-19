@@ -4,10 +4,12 @@ dotenv.config();
 // Dependencies
 import morgan from 'morgan';
 import helmet from 'helmet';
-
 import express from 'express'
 
 import { AuracleApi } from './common/classes/AuracleApi'
+
+// Database
+import { AuracleDatabaseDriver } from './common/database';
 
 const port = Number(process.env.API_PORT);
 
@@ -19,11 +21,10 @@ const app = new AuracleApi({
         morgan('dev'),
         helmet()
     ],
+    database: AuracleDatabaseDriver
 });
 
 app.listen()
-
-process.on('SIGINT', () => app.close());
   
 // const routes = require('./routes');
 
