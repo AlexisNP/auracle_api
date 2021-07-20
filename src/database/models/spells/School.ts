@@ -1,6 +1,6 @@
 import { DataTypes, Model, Optional } from "sequelize";
 
-import { AuracleDatabaseDriver } from "../../common/classes/AuracleDatabaseDriver";
+import { AuracleDatabaseDriver } from "../../AuracleDatabaseDriver";
 
 interface SchoolAttributes {
     id: number

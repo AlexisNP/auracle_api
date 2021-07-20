@@ -1,12 +1,11 @@
-import { Model, ModelOptions, Options, Sequelize } from 'sequelize'
-import registerModels from '../../models'
+import { Model, ModelOptions, Options } from "sequelize/types"
 
 const tablePrefix = 'au_'
 
 /**
  * Registers the options to create the sequelize instance
  */
-const driverOptions: Options = {
+export const dbConfig: Options = {
     /**
      * Access to database
      */
@@ -27,19 +26,3 @@ const driverOptions: Options = {
         }
     }
 }
-// Creates the sequelize instance
-export const AuracleDatabaseDriver = new Sequelize(driverOptions)
-
-/**
- * If the environement is production...
- */
-if (process.env.NODE_ENV != 'production') {
-    AuracleDatabaseDriver.sync({
-        force: true
-    })
-}
-
-/**
- * Registers models presents in the /models folder
- */
-registerModels()

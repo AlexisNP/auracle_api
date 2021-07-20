@@ -1,8 +1,8 @@
 import { DataTypes, Model, Optional } from "sequelize";
 
-import { AuracleDatabaseDriver } from "../../common/classes/AuracleDatabaseDriver";
+import { AuracleDatabaseDriver } from "../../AuracleDatabaseDriver";
 
-interface MetaSchoolAttributes {
+interface IngredientAttributes {
     id: number
     name: string
     description: string
@@ -10,9 +10,9 @@ interface MetaSchoolAttributes {
     published: boolean
 }
 
-interface MetaSchoolCreationAttributes extends Optional<MetaSchoolAttributes, 'id'> { }
+interface IngredientCreationAttributes extends Optional<IngredientAttributes, 'id'> { }
 
-class MetaSchool extends Model<MetaSchoolAttributes, MetaSchoolCreationAttributes> implements MetaSchoolAttributes {
+class Ingredient extends Model<IngredientAttributes, IngredientCreationAttributes> implements IngredientAttributes {
     public id!: number
     public name!: string
     public description!: string
@@ -24,7 +24,7 @@ class MetaSchool extends Model<MetaSchoolAttributes, MetaSchoolCreationAttribute
 }
 
 export default () => {
-    MetaSchool.init(
+    Ingredient.init(
         {
             id: {
                 type: DataTypes.INTEGER.UNSIGNED,
@@ -47,7 +47,7 @@ export default () => {
             }
         },
         {
-            tableName: 'meta-school',
+            tableName: 'ingredient',
             sequelize: AuracleDatabaseDriver,
         }
     )
