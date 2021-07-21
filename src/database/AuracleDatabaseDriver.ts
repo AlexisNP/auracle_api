@@ -27,9 +27,7 @@ export const fetchAllTypescriptFiles = (dir: string, acc: string[] = []): string
     fs.readdirSync(dir)
         .forEach(file => {
 
-            const fileIsTypescript = (
-                (file.split('.').pop() === 'ts')
-            )
+            const fileIsTypescript = (file.split('.').pop() === 'ts')
             const fileIsFolder = (file.indexOf('.') === -1)
 
             if (fileIsFolder) {
