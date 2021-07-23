@@ -1,8 +1,10 @@
+import { NextFunction, Response } from "express";
+
 const regexInt = RegExp(/^[1-9]\d*$/);
 const regexXSS = RegExp(/<[^>]*script/);
 
 // Check if int for param validation
-const paramIntCheck = (req, res, next, input) => {
+const paramIntCheck = (req: Request, res: Response, next: NextFunction, input: any) => {
     try {
         if (regexInt.test(input)) {
             next();
@@ -19,12 +21,12 @@ const paramIntCheck = (req, res, next, input) => {
 };
 
 // Check if script injection attempt
-const isXSSAttempt = (string) => {
+const isXSSAttempt = (string: string) => {
     return regexXSS.test(string);
 };
 
 // Check if object is null
-const isEmptyObject = (obj) => {
+const isEmptyObject = (obj: Object) => {
     return (Object.keys(obj).length === 0 && obj.constructor === Object);
 };
 

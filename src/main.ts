@@ -3,12 +3,12 @@
  */
 
 // .env Data
-import * as dotenv from 'dotenv';
+import * as dotenv from 'dotenv'
 dotenv.config();
 
 // Packages
-import morgan from 'morgan';
-import helmet from 'helmet';
+import morgan from 'morgan'
+import helmet from 'helmet'
 import express from 'express'
 
 import { AuracleApi } from './common/classes/AuracleApi'
