@@ -22,7 +22,7 @@ export const dbConfig: Options = {
      */
     hooks: {
         beforeDefine: (columns: any, model: ModelOptions<Model<any, any>>) => {
-            model.tableName = tablePrefix + model.name.plural
+            model.tableName = tablePrefix + model.tableName
         }
     }
 }
