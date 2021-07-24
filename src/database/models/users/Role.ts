@@ -4,14 +4,16 @@ import { AuracleDatabaseDriver } from "../../AuracleDatabaseDriver";
 
 interface RoleAttributes {
     id: number
+    uuid: string
     name: string
     description: string
 }
 
 interface RoleCreationAttributes extends Optional<RoleAttributes, 'id'> { }
 
-class Role extends Model<RoleAttributes, RoleCreationAttributes> implements RoleAttributes {
-    public id!: number
+export class Role extends Model<RoleAttributes, RoleCreationAttributes> implements RoleAttributes {
+    public readonly id!: number
+    public readonly uuid!: string
     public name!: string
     public description!: string
 
@@ -26,6 +28,11 @@ export default () => {
                 type: DataTypes.INTEGER.UNSIGNED,
                 autoIncrement: true,
                 primaryKey: true
+            },
+            uuid: {
+                type: DataTypes.UUIDV4,
+                allowNull: false,
+                unique: true
             },
             name: {
                 type: DataTypes.STRING,

@@ -4,6 +4,7 @@ import { AuracleDatabaseDriver } from "../../AuracleDatabaseDriver";
 
 interface SpellAttributes {
     id: number
+    uuid: string
     name: string
     description: string
 
@@ -18,8 +19,9 @@ interface SpellAttributes {
 
 interface SpellCreationAttributes extends Optional<SpellAttributes, 'id'> { }
 
-class Spell extends Model<SpellAttributes, SpellCreationAttributes> implements SpellAttributes {
-    public id!: number
+export class SpellModel extends Model<SpellAttributes, SpellCreationAttributes> implements SpellAttributes {
+    public readonly id!: number
+    public readonly uuid!: string
     public name!: string
     public description!: string
 
@@ -36,12 +38,17 @@ class Spell extends Model<SpellAttributes, SpellCreationAttributes> implements S
 }
 
 export default () => {
-    Spell.init(
+    SpellModel.init(
         {
             id: {
                 type: DataTypes.INTEGER.UNSIGNED,
                 autoIncrement: true,
                 primaryKey: true
+            },
+            uuid: {
+                type: DataTypes.UUIDV4,
+                allowNull: false,
+                unique: true
             },
             name: {
                 type: DataTypes.STRING,

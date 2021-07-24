@@ -4,6 +4,7 @@ import { AuracleDatabaseDriver } from "../../AuracleDatabaseDriver";
 
 interface IngredientAttributes {
     id: number
+    uuid: string
     name: string
     description: string
 
@@ -12,8 +13,9 @@ interface IngredientAttributes {
 
 interface IngredientCreationAttributes extends Optional<IngredientAttributes, 'id'> { }
 
-class Ingredient extends Model<IngredientAttributes, IngredientCreationAttributes> implements IngredientAttributes {
-    public id!: number
+export class Ingredient extends Model<IngredientAttributes, IngredientCreationAttributes> implements IngredientAttributes {
+    public readonly id!: number
+    public readonly uuid!: string
     public name!: string
     public description!: string
 
@@ -30,6 +32,11 @@ export default () => {
                 type: DataTypes.INTEGER.UNSIGNED,
                 autoIncrement: true,
                 primaryKey: true
+            },
+            uuid: {
+                type: DataTypes.UUIDV4,
+                allowNull: false,
+                unique: true
             },
             name: {
                 type: DataTypes.STRING,

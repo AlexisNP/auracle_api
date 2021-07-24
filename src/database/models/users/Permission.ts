@@ -4,13 +4,15 @@ import { AuracleDatabaseDriver } from "../../AuracleDatabaseDriver";
 
 interface PermissionAttributes {
     id: number
+    uuid: string
     slug: string
 }
 
 interface PermissionCreationAttributes extends Optional<PermissionAttributes, 'id'> { }
 
-class Permission extends Model<PermissionAttributes, PermissionCreationAttributes> implements PermissionAttributes {
-    public id!: number
+export class Permission extends Model<PermissionAttributes, PermissionCreationAttributes> implements PermissionAttributes {
+    public readonly id!: number
+    public readonly uuid!: string
     public slug!: string
 
     public readonly createdAt!: Date;
@@ -24,6 +26,11 @@ export default () => {
                 type: DataTypes.INTEGER.UNSIGNED,
                 autoIncrement: true,
                 primaryKey: true
+            },
+            uuid: {
+                type: DataTypes.UUIDV4,
+                allowNull: false,
+                unique: true
             },
             slug: {
                 type: DataTypes.STRING,

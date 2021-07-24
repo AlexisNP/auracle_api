@@ -4,6 +4,7 @@ import { AuracleDatabaseDriver } from "../../AuracleDatabaseDriver";
 
 interface UserAttributes {
     id: number
+    uuid: string
     mail: string
     password: string
 
@@ -15,8 +16,9 @@ interface UserAttributes {
 
 interface UserCreationAttributes extends Optional<UserAttributes, 'id'> { }
 
-class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
-    public id!: number
+export class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
+    public readonly id!: number
+    public readonly uuid!: string
     public readonly mail!: string
     public readonly password!: string
 
@@ -36,6 +38,11 @@ export default () => {
                 type: DataTypes.INTEGER.UNSIGNED,
                 autoIncrement: true,
                 primaryKey: true
+            },
+            uuid: {
+                type: DataTypes.UUIDV4,
+                allowNull: false,
+                unique: true
             },
             mail: {
                 type: DataTypes.STRING,

@@ -4,6 +4,7 @@ import { AuracleDatabaseDriver } from "../../AuracleDatabaseDriver";
 
 interface MetaSchoolAttributes {
     id: number
+    uuid: string
     name: string
     description: string
 
@@ -12,8 +13,9 @@ interface MetaSchoolAttributes {
 
 interface MetaSchoolCreationAttributes extends Optional<MetaSchoolAttributes, 'id'> { }
 
-class MetaSchool extends Model<MetaSchoolAttributes, MetaSchoolCreationAttributes> implements MetaSchoolAttributes {
-    public id!: number
+export class MetaSchool extends Model<MetaSchoolAttributes, MetaSchoolCreationAttributes> implements MetaSchoolAttributes {
+    public readonly id!: number
+    public readonly uuid!: string
     public name!: string
     public description!: string
 
@@ -30,6 +32,11 @@ export default () => {
                 type: DataTypes.INTEGER.UNSIGNED,
                 autoIncrement: true,
                 primaryKey: true
+            },
+            uuid: {
+                type: DataTypes.UUIDV4,
+                allowNull: false,
+                unique: true
             },
             name: {
                 type: DataTypes.STRING,
