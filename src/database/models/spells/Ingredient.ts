@@ -34,9 +34,10 @@ export default () => {
                 primaryKey: true
             },
             uuid: {
-                type: DataTypes.UUIDV4,
+                type: DataTypes.UUID,
                 allowNull: false,
-                unique: true
+                unique: true,
+                defaultValue: DataTypes.UUIDV4
             },
             name: {
                 type: DataTypes.STRING,
@@ -54,7 +55,7 @@ export default () => {
             }
         },
         {
-            tableName: 'ingredient',
+            tableName: 'ingredients',
             sequelize: AuracleDatabaseDriver,
         }
     )

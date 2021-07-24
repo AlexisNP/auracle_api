@@ -40,9 +40,10 @@ export default () => {
                 primaryKey: true
             },
             uuid: {
-                type: DataTypes.UUIDV4,
+                type: DataTypes.UUID,
                 allowNull: false,
-                unique: true
+                unique: true,
+                defaultValue: DataTypes.UUIDV4
             },
             mail: {
                 type: DataTypes.STRING,
@@ -69,7 +70,7 @@ export default () => {
             },
         },
         {
-            tableName: 'user',
+            tableName: 'users',
             sequelize: AuracleDatabaseDriver,
         }
     )

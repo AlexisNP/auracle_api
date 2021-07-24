@@ -46,9 +46,10 @@ export default () => {
                 primaryKey: true
             },
             uuid: {
-                type: DataTypes.UUIDV4,
+                type: DataTypes.UUID,
                 allowNull: false,
-                unique: true
+                unique: true,
+                defaultValue: DataTypes.UUIDV4
             },
             name: {
                 type: DataTypes.STRING,
@@ -87,7 +88,7 @@ export default () => {
             },
         },
         {
-            tableName: 'spell',
+            tableName: 'spells',
             sequelize: AuracleDatabaseDriver,
         }
     )

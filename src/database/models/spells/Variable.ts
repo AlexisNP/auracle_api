@@ -2,25 +2,29 @@ import { DataTypes, Model, Optional } from "sequelize";
 
 import { AuracleDatabaseDriver } from "../../AuracleDatabaseDriver";
 
-interface PermissionAttributes {
+interface VariableAttributes {
     id: number
     uuid: string
-    slug: string
+    description: string
+
+    published: boolean
 }
 
-interface PermissionCreationAttributes extends Optional<PermissionAttributes, 'id'> { }
+interface VariableCreationAttributes extends Optional<VariableAttributes, 'id'> { }
 
-export class Permission extends Model<PermissionAttributes, PermissionCreationAttributes> implements PermissionAttributes {
+export class Variable extends Model<VariableAttributes, VariableCreationAttributes> implements VariableAttributes {
     public readonly id!: number
     public readonly uuid!: string
-    public slug!: string
+    public description!: string
+
+    public published: boolean
 
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
 }
 
 export default () => {
-    Permission.init(
+    Variable.init(
         {
             id: {
                 type: DataTypes.INTEGER.UNSIGNED,
@@ -33,14 +37,18 @@ export default () => {
                 unique: true,
                 defaultValue: DataTypes.UUIDV4
             },
-            slug: {
+            description: {
                 type: DataTypes.STRING,
                 allowNull: false,
-                unique: true
             },
+
+            published: {
+                type: DataTypes.BOOLEAN,
+                defaultValue: false
+            }
         },
         {
-            tableName: 'permissions',
+            tableName: 'variables',
             sequelize: AuracleDatabaseDriver,
         }
     )
