@@ -3,17 +3,15 @@ import { DataTypes, Model, Optional } from "sequelize";
 import { AuracleDatabaseDriver } from "../../AuracleDatabaseDriver";
 
 interface VariableAttributes {
-    id: number
     uuid: string
     description: string
 
     published: boolean
 }
 
-interface VariableCreationAttributes extends Optional<VariableAttributes, 'id'> { }
+interface VariableCreationAttributes extends Optional<VariableAttributes, 'uuid'> { }
 
 export class Variable extends Model<VariableAttributes, VariableCreationAttributes> implements VariableAttributes {
-    public readonly id!: number
     public readonly uuid!: string
     public description!: string
 
@@ -26,16 +24,12 @@ export class Variable extends Model<VariableAttributes, VariableCreationAttribut
 export default () => {
     Variable.init(
         {
-            id: {
-                type: DataTypes.INTEGER.UNSIGNED,
-                autoIncrement: true,
-                primaryKey: true
-            },
             uuid: {
                 type: DataTypes.UUID,
-                allowNull: false,
                 unique: true,
-                defaultValue: DataTypes.UUIDV4
+                allowNull: false,
+                defaultValue: DataTypes.UUIDV4,
+                primaryKey: true
             },
             description: {
                 type: DataTypes.STRING,
@@ -48,7 +42,7 @@ export default () => {
             }
         },
         {
-            tableName: 'variables',
+            tableName: 'au_variables',
             sequelize: AuracleDatabaseDriver,
         }
     )

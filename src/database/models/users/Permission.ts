@@ -3,15 +3,13 @@ import { DataTypes, Model, Optional } from "sequelize";
 import { AuracleDatabaseDriver } from "../../AuracleDatabaseDriver";
 
 interface PermissionAttributes {
-    id: number
     uuid: string
     slug: string
 }
 
-interface PermissionCreationAttributes extends Optional<PermissionAttributes, 'id'> { }
+interface PermissionCreationAttributes extends Optional<PermissionAttributes, 'uuid'> { }
 
 export class Permission extends Model<PermissionAttributes, PermissionCreationAttributes> implements PermissionAttributes {
-    public readonly id!: number
     public readonly uuid!: string
     public slug!: string
 
@@ -22,16 +20,12 @@ export class Permission extends Model<PermissionAttributes, PermissionCreationAt
 export default () => {
     Permission.init(
         {
-            id: {
-                type: DataTypes.INTEGER.UNSIGNED,
-                autoIncrement: true,
-                primaryKey: true
-            },
             uuid: {
                 type: DataTypes.UUID,
-                allowNull: false,
                 unique: true,
-                defaultValue: DataTypes.UUIDV4
+                allowNull: false,
+                defaultValue: DataTypes.UUIDV4,
+                primaryKey: true
             },
             slug: {
                 type: DataTypes.STRING,
@@ -40,7 +34,7 @@ export default () => {
             },
         },
         {
-            tableName: 'permissions',
+            tableName: 'au_permissions',
             sequelize: AuracleDatabaseDriver,
         }
     )

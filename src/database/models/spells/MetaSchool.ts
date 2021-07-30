@@ -3,7 +3,6 @@ import { DataTypes, Model, Optional } from "sequelize";
 import { AuracleDatabaseDriver } from "../../AuracleDatabaseDriver";
 
 interface MetaSchoolAttributes {
-    id: number
     uuid: string
     name: string
     description: string
@@ -11,10 +10,9 @@ interface MetaSchoolAttributes {
     published: boolean
 }
 
-interface MetaSchoolCreationAttributes extends Optional<MetaSchoolAttributes, 'id'> { }
+interface MetaSchoolCreationAttributes extends Optional<MetaSchoolAttributes, 'uuid'> { }
 
 export class MetaSchool extends Model<MetaSchoolAttributes, MetaSchoolCreationAttributes> implements MetaSchoolAttributes {
-    public readonly id!: number
     public readonly uuid!: string
     public name!: string
     public description!: string
@@ -28,16 +26,12 @@ export class MetaSchool extends Model<MetaSchoolAttributes, MetaSchoolCreationAt
 export default () => {
     MetaSchool.init(
         {
-            id: {
-                type: DataTypes.INTEGER.UNSIGNED,
-                autoIncrement: true,
-                primaryKey: true
-            },
             uuid: {
                 type: DataTypes.UUID,
-                allowNull: false,
                 unique: true,
-                defaultValue: DataTypes.UUIDV4
+                allowNull: false,
+                defaultValue: DataTypes.UUIDV4,
+                primaryKey: true
             },
             name: {
                 type: DataTypes.STRING,
@@ -55,7 +49,7 @@ export default () => {
             }
         },
         {
-            tableName: 'meta_schools',
+            tableName: 'au_meta_schools',
             sequelize: AuracleDatabaseDriver,
         }
     )

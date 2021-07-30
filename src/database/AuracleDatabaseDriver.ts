@@ -8,15 +8,6 @@ export let AuracleDatabaseDriver: Sequelize;
 AuracleDatabaseDriver = new Sequelize(dbConfig)
 
 /**
- * If the environement is production...
- */
-if (process.env.NODE_ENV != 'production') {
-    AuracleDatabaseDriver.sync({
-        force: true
-    })
-}
-
-/**
  * Fetches all Typescript files from a given directory
  *
  * @param dir The folder to scan where the models are located
@@ -49,3 +40,12 @@ models.forEach(modelPath => {
     const registerModel = require(modelPath).default as Function
     registerModel()
 })
+
+/**
+ * If the environement is production, sync the DB
+ */
+if (process.env.NODE_ENV != 'production') {
+    AuracleDatabaseDriver.sync({
+        force: true,
+    })
+}

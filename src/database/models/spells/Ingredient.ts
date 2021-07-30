@@ -3,7 +3,6 @@ import { DataTypes, Model, Optional } from "sequelize";
 import { AuracleDatabaseDriver } from "../../AuracleDatabaseDriver";
 
 interface IngredientAttributes {
-    id: number
     uuid: string
     name: string
     description: string
@@ -11,10 +10,9 @@ interface IngredientAttributes {
     published: boolean
 }
 
-interface IngredientCreationAttributes extends Optional<IngredientAttributes, 'id'> { }
+interface IngredientCreationAttributes extends Optional<IngredientAttributes, 'uuid'> { }
 
 export class Ingredient extends Model<IngredientAttributes, IngredientCreationAttributes> implements IngredientAttributes {
-    public readonly id!: number
     public readonly uuid!: string
     public name!: string
     public description!: string
@@ -28,16 +26,12 @@ export class Ingredient extends Model<IngredientAttributes, IngredientCreationAt
 export default () => {
     Ingredient.init(
         {
-            id: {
-                type: DataTypes.INTEGER.UNSIGNED,
-                autoIncrement: true,
-                primaryKey: true
-            },
             uuid: {
                 type: DataTypes.UUID,
-                allowNull: false,
                 unique: true,
-                defaultValue: DataTypes.UUIDV4
+                allowNull: false,
+                defaultValue: DataTypes.UUIDV4,
+                primaryKey: true
             },
             name: {
                 type: DataTypes.STRING,
@@ -55,7 +49,7 @@ export default () => {
             }
         },
         {
-            tableName: 'ingredients',
+            tableName: 'au_ingredients',
             sequelize: AuracleDatabaseDriver,
         }
     )

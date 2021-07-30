@@ -20,9 +20,5 @@ export const dbConfig: Options = {
      * Sequelize Hooks
      * Docs : https://sequelize.org/master/manual/hooks.html
      */
-    hooks: {
-        beforeDefine: (columns: any, model: ModelOptions<Model<any, any>>) => {
-            model.tableName = tablePrefix + model.tableName
-        }
-    }
+    hooks: {}
 }

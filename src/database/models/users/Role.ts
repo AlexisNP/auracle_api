@@ -47,7 +47,7 @@ export default () => {
             },
         },
         {
-            tableName: 'roles',
+            tableName: 'au_roles',
             sequelize: AuracleDatabaseDriver,
         }
     )

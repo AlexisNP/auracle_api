@@ -1,55 +1,49 @@
-import { DataTypes, Model, Optional } from "sequelize";
+import { DataTypes, Model, Optional, TableHints } from "sequelize";
 
 import { AuracleDatabaseDriver } from "../../AuracleDatabaseDriver";
 
 interface SpellAttributes {
-    id: number
     uuid: string
     name: string
     description: string
 
-    level: number
-    charge: number
-    cost: string
-    isRitual: boolean
+    level?: number
+    charge?: number
+    cost?: string
+    isRitual?: boolean
 
-    published: boolean
-    public: boolean
+    published?: boolean
+    public?: boolean
 }
 
-interface SpellCreationAttributes extends Optional<SpellAttributes, 'id'> { }
+export interface SpellCreationAttributes extends Optional<SpellAttributes, 'uuid'> { }
 
-export class SpellModel extends Model<SpellAttributes, SpellCreationAttributes> implements SpellAttributes {
-    public readonly id!: number
+export class Spell extends Model<SpellAttributes, SpellCreationAttributes> implements SpellAttributes {
     public readonly uuid!: string
     public name!: string
     public description!: string
 
-    public level: number
-    public charge: number
-    public cost: string
-    public isRitual: boolean
+    public level?: number
+    public charge?: number
+    public cost?: string
+    public isRitual?: boolean
 
-    public published: boolean
-    public public: boolean
+    public published?: boolean
+    public public?: boolean
 
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
 }
 
-export default () => {
-    SpellModel.init(
+export default async () => {
+    Spell.init(
         {
-            id: {
-                type: DataTypes.INTEGER.UNSIGNED,
-                autoIncrement: true,
-                primaryKey: true
-            },
             uuid: {
                 type: DataTypes.UUID,
-                allowNull: false,
                 unique: true,
-                defaultValue: DataTypes.UUIDV4
+                allowNull: false,
+                defaultValue: DataTypes.UUIDV4,
+                primaryKey: true
             },
             name: {
                 type: DataTypes.STRING,
@@ -88,7 +82,7 @@ export default () => {
             },
         },
         {
-            tableName: 'spells',
+            tableName: 'au_spells',
             sequelize: AuracleDatabaseDriver,
         }
     )

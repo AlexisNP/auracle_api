@@ -70,7 +70,7 @@ export default () => {
             },
         },
         {
-            tableName: 'users',
+            tableName: 'au_users',
             sequelize: AuracleDatabaseDriver,
         }
     )

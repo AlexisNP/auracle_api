@@ -1,74 +1,111 @@
 import express, { Application } from 'express'
 import { Sequelize } from 'sequelize'
-
-// import ControllerBase from './class/controller.base'
+import { AuracleApiRouter } from './AuracleApiRouter'
 
 export class AuracleApi {
     public app: Application
     public port: number
-    public base_url = '/api/v1/'
+    public version = 'v1'
+    public baseUrl = `/api/${this.version}/`
 
-    private database?: Sequelize;
-
-    constructor(init: {
-        port: any
-        middlewares: any
-        // controllers: Array<ControllerBase>
-        modules?: Array<any>
-        database?: Sequelize
-    }) {
+    constructor(
+        init: {
+            port: any
+            database: Sequelize
+            routers?: Array<AuracleApiRouter>
+            modules?: Array<any>
+            middlewares?: Array<any>
+        }
+    ) {
         this.app = express()
         this.port = Number(init.port)
-        this.database = init.database
 
-        if (init.modules) {
-            this.modules(init.modules)
-        }
-
-        if (init.middlewares) {
-            this.middlewares(init.middlewares)
-        }
-
-        // if (init.controllers) {
-        //   this.controller(init.controllers)
-        // }
-
+        // Making sure the DB is up before init routers, modules, etc...
         if (init.database) {
             this.db_connect(init.database)
+                .then(() => {
+
+                    // Sets up tasks to execute...
+                    const tasks = [
+                        this.modules(init.modules),
+                        this.routers(init.routers),
+                        this.middlewares(init.middlewares)
+                    ]
+
+                    Promise.all(tasks)
+                        .catch((err) => {
+                            throw err
+                        })
+                })
+                .catch((err) => {
+                    console.error("App couldn't boot up with the following errors : ")
+                    console.error(err)
+                })
         }
     }
 
-    private modules = (modules: Array<any>) => {
-        modules.forEach((module) => {
-            this.app.use(module)
-        })
-    }
-
-    //   private controller = (controllers: Array<ControllerBase>) => {
-    //     controllers.forEach((controller) => {
-    //       this.app.use(this.base_url + controller.path, controller.router)
-    //       console.log(`${controller.name} chargé`)
-    //     })
-    //   }
-
-    private middlewares = (middleWares: {
-        forEach: (arg0: (middleWare: any) => void) => void;
-    }) => {
-        middleWares.forEach((middleWare) => {
-            this.app.use(middleWare)
-        })
-    }
-
+    /**
+     * Links the API with a Sequelize Database Object
+     * @param db_driver A Sequelize instance
+     */
     private db_connect = async (db_driver: Sequelize) => {
         try {
-            await db_driver.authenticate();
+            const connection = await db_driver.authenticate();
             console.info('Connection has been established successfully.')
+
+            return connection
         } catch (err) {
-            console.error('Unable to connect to the database')
-            console.error(err)
+            console.error('Unable to connect to the database.')
+            throw err
         }
     }
 
+    /**
+     * Initializes the App with a bunch of modules like helmet, cors, morgan...
+     * @param modules An array of modules and extensions
+     */
+    private modules = async (modules: Array<any>) => {
+        try {
+            modules.forEach((module) => {
+                this.app.use(module)
+            })
+        } catch (err) {
+            console.error('Unable to initialize modules and extensions.')
+            throw err
+        }
+    }
+
+    /**
+     * Initializes routers
+     * @param routers An array of AuracleApiRouter children objects
+     */
+    private routers = async (routers: Array<AuracleApiRouter>) => {
+        try {
+            routers.forEach((router) => {
+                this.app.use(`${this.baseUrl}`, router.instance)
+            })
+        } catch (err) {
+            console.error('Unable to initialize routers.')
+            throw err
+        }
+    }
+
+    private middlewares = async (middleWares: {
+        forEach: (arg0: (middleWare: any) => void) => void;
+    }) => {
+        try {
+            middleWares.forEach((middleWare) => {
+                this.app.use(middleWare)
+            })
+        } catch (err) {
+            console.error('Unable to initialize middlewares.')
+            throw err
+        }
+    }
+
+    /**
+     * Allows the App to run on its given port
+     */
     public listen = () => {
         this.app.listen(this.port, () => {
             console.log(`App listening on port ${this.port}`)

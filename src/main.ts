@@ -14,11 +14,16 @@ import express from 'express'
 import { AuracleApi } from './common/classes/AuracleApi'
 import { AuracleDatabaseDriver } from './database/AuracleDatabaseDriver'
 
+import { SpellRouter } from './routes/SpellRouter';
+
 const apiPort = process.env.API_PORT
 
 const app = new AuracleApi({
     port: apiPort,
     middlewares: [],
+    routers: [
+        new SpellRouter()
+    ],
     modules: [
         express.json({ limit: '10kb' }),
         morgan('dev'),
