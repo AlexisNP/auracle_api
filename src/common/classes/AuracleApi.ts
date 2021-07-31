@@ -54,7 +54,7 @@ export class AuracleApi {
 
             // Builds the data schema from registered entities
             await connection.synchronize()
-            console.info('Database schema has been generated successfully.')
+            console.info('Database schemas have been generated successfully.')
 
             return connection
         } catch (err) {
