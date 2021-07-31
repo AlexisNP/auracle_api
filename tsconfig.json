@@ -15,8 +15,10 @@
         "incremental": true,
         "types": [
             "node",
-            "express",
-            "sequelize"
+            "express"
         ],
+        // Required for TypeORM
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true
     }
 }
