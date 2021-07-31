@@ -1,56 +1,15 @@
-import { DataTypes, Model, Optional } from "sequelize";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-import { AuracleDatabaseDriver } from "../../AuracleDatabaseDriver";
-
-interface SchoolAttributes {
-    uuid: string
-    name: string
-    description: string
-
-    published: boolean
-}
-
-interface SchoolCreationAttributes extends Optional<SchoolAttributes, 'uuid'> { }
-
-export class School extends Model<SchoolAttributes, SchoolCreationAttributes> implements SchoolAttributes {
+@Entity()
+export class School {
+    @PrimaryGeneratedColumn('uuid')
     public readonly uuid!: string
+
+    @Column()
     public name!: string
+    @Column()
     public description!: string
 
+    @Column()
     public published: boolean
-
-    public readonly createdAt!: Date;
-    public readonly updatedAt!: Date;
-}
-
-export default () => {
-    School.init(
-        {
-            uuid: {
-                type: DataTypes.UUID,
-                unique: true,
-                allowNull: false,
-                defaultValue: DataTypes.UUIDV4,
-                primaryKey: true
-            },
-            name: {
-                type: DataTypes.STRING,
-                allowNull: false,
-                unique: true,
-            },
-            description: {
-                type: DataTypes.STRING,
-                allowNull: false,
-            },
-
-            published: {
-                type: DataTypes.BOOLEAN,
-                defaultValue: false
-            }
-        },
-        {
-            tableName: 'au_schools',
-            sequelize: AuracleDatabaseDriver,
-        }
-    )
 }

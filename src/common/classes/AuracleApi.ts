@@ -1,7 +1,6 @@
 import express, { Application } from 'express'
-import { Sequelize } from 'sequelize'
+import { Connection } from 'typeorm'
 import { AuracleApiRouter } from './AuracleApiRouter'
-
 export class AuracleApi {
     public app: Application
     public port: number
@@ -11,7 +10,7 @@ export class AuracleApi {
     constructor(
         init: {
             port: any
-            database: Sequelize
+            database: Promise<Connection>
             routers?: Array<AuracleApiRouter>
             modules?: Array<any>
             middlewares?: Array<any>
@@ -48,10 +47,14 @@ export class AuracleApi {
      * Links the API with a Sequelize Database Object
      * @param db_driver A Sequelize instance
      */
-    private db_connect = async (db_driver: Sequelize) => {
+    private db_connect = async (db_driver: Promise<Connection>) => {
         try {
-            const connection = await db_driver.authenticate();
+            const connection = await db_driver
             console.info('Connection has been established successfully.')
+
+            // Builds the data schema from registered entities
+            await connection.synchronize()
+            console.info('Database schema has been generated successfully.')
 
             return connection
         } catch (err) {

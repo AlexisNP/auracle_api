@@ -1,49 +1,13 @@
-import { DataTypes, Model, Optional } from "sequelize";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-import { AuracleDatabaseDriver } from "../../AuracleDatabaseDriver";
-
-interface VariableAttributes {
-    uuid: string
-    description: string
-
-    published: boolean
-}
-
-interface VariableCreationAttributes extends Optional<VariableAttributes, 'uuid'> { }
-
-export class Variable extends Model<VariableAttributes, VariableCreationAttributes> implements VariableAttributes {
+@Entity()
+export class Variable {
+    @PrimaryGeneratedColumn('uuid')
     public readonly uuid!: string
+
+    @Column()
     public description!: string
 
+    @Column()
     public published: boolean
-
-    public readonly createdAt!: Date;
-    public readonly updatedAt!: Date;
-}
-
-export default () => {
-    Variable.init(
-        {
-            uuid: {
-                type: DataTypes.UUID,
-                unique: true,
-                allowNull: false,
-                defaultValue: DataTypes.UUIDV4,
-                primaryKey: true
-            },
-            description: {
-                type: DataTypes.STRING,
-                allowNull: false,
-            },
-
-            published: {
-                type: DataTypes.BOOLEAN,
-                defaultValue: false
-            }
-        },
-        {
-            tableName: 'au_variables',
-            sequelize: AuracleDatabaseDriver,
-        }
-    )
 }

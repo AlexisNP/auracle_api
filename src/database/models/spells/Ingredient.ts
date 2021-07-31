@@ -1,56 +1,15 @@
-import { DataTypes, Model, Optional } from "sequelize";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-import { AuracleDatabaseDriver } from "../../AuracleDatabaseDriver";
-
-interface IngredientAttributes {
-    uuid: string
-    name: string
-    description: string
-
-    published: boolean
-}
-
-interface IngredientCreationAttributes extends Optional<IngredientAttributes, 'uuid'> { }
-
-export class Ingredient extends Model<IngredientAttributes, IngredientCreationAttributes> implements IngredientAttributes {
+@Entity()
+export class Ingredient {
+    @PrimaryGeneratedColumn('uuid')
     public readonly uuid!: string
+
+    @Column()
     public name!: string
+    @Column()
     public description!: string
 
+    @Column()
     public published: boolean
-
-    public readonly createdAt!: Date;
-    public readonly updatedAt!: Date;
-}
-
-export default () => {
-    Ingredient.init(
-        {
-            uuid: {
-                type: DataTypes.UUID,
-                unique: true,
-                allowNull: false,
-                defaultValue: DataTypes.UUIDV4,
-                primaryKey: true
-            },
-            name: {
-                type: DataTypes.STRING,
-                allowNull: false,
-                unique: true,
-            },
-            description: {
-                type: DataTypes.STRING,
-                allowNull: false,
-            },
-
-            published: {
-                type: DataTypes.BOOLEAN,
-                defaultValue: false
-            }
-        },
-        {
-            tableName: 'au_ingredients',
-            sequelize: AuracleDatabaseDriver,
-        }
-    )
 }

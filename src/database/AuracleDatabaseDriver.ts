@@ -1,11 +1,8 @@
-import { Sequelize } from 'sequelize'
 import * as fs from 'fs'
+import { createConnection } from 'typeorm';
 import { dbConfig } from './config'
 
-export let AuracleDatabaseDriver: Sequelize;
-
-// Creates the sequelize instance
-AuracleDatabaseDriver = new Sequelize(dbConfig)
+export const AuracleDatabaseDriver = createConnection(dbConfig);
 
 /**
  * Fetches all Typescript files from a given directory
@@ -36,16 +33,9 @@ export const fetchAllTypescriptFiles = (dir: string, acc: string[] = []): string
 const modelDir = __dirname + '/models'
 const models = fetchAllTypescriptFiles(modelDir)
 
-models.forEach(modelPath => {
-    const registerModel = require(modelPath).default as Function
-    registerModel()
-})
-
 /**
  * If the environement is production, sync the DB
  */
 if (process.env.NODE_ENV != 'production') {
-    AuracleDatabaseDriver.sync({
-        force: true,
-    })
+    // Todo
 }
