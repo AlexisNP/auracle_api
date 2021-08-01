@@ -1,4 +1,10 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm"
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm"
+import { Ingredient } from "../spells/Ingredient"
+import { MetaSchool } from "../spells/MetaSchool"
+import { School } from "../spells/School"
+import { Spell } from "../spells/Spell"
+import { Variable } from "../spells/Variable"
+import { Role } from "./Role"
 
 @Entity()
 export class User {
@@ -20,6 +26,27 @@ export class User {
     @Column()
     public verified: boolean
 
+    // CREATIONS
+    @OneToMany(() => Spell, spell => spell.creator)
+    public spells?: Spell[]
+
+    @OneToMany(() => School, school => school.creator)
+    public schools?: School[]
+
+    @OneToMany(() => Variable, variable => variable.creator)
+    public variables?: Variable[]
+
+    @OneToMany(() => Ingredient, ingredients => ingredients.creator)
+    public ingredients?: Ingredient[]
+
+    @OneToMany(() => MetaSchool, metaSchools => metaSchools.creator)
+    public metaSchools?: Ingredient[]
+
+    // ROLE
+    @ManyToOne(() => Role, role => role.users)
+    public role: Role
+
+    // TIMESTAMPS
     @Column()
     @CreateDateColumn()
     public createdAt?: Date

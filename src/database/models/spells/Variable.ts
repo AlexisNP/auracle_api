@@ -1,4 +1,6 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { User } from "../users/User";
+import { Spell } from "./Spell";
 
 @Entity()
 export class Variable {
@@ -11,6 +13,16 @@ export class Variable {
     @Column()
     public published: boolean
 
+    @ManyToMany(() => Spell, spell => spell.variables)
+    @JoinTable({
+        name: 'variables_spells'
+    })
+    public spells?: Spell[]
+
+    @ManyToOne(() => User, user => user.variables)
+    public creator: User
+
+    // TIMESTAMPS
     @Column()
     @CreateDateColumn()
     public createdAt?: Date

@@ -1,4 +1,7 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { User } from "../users/User";
+import { MetaSchool } from "./MetaSchool";
+import { Spell } from "./Spell";
 
 @Entity()
 export class School {
@@ -13,6 +16,19 @@ export class School {
     @Column()
     public published: boolean
 
+    @ManyToMany(() => Spell, spell => spell.schools)
+    @JoinTable({
+        name: 'schools_spells'
+    })
+    public spells?: Spell[]
+
+    @ManyToOne(() => MetaSchool, metaSchool => metaSchool.schools)
+    public metaSchool: MetaSchool
+
+    @ManyToOne(() => User, user => user.schools)
+    public creator: User
+
+    // TIMESTAMPS
     @Column()
     @CreateDateColumn()
     public createdAt?: Date

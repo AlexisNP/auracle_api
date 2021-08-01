@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Role } from "./Role";
 
 @Entity()
 export class Permission {
@@ -8,6 +9,10 @@ export class Permission {
     @Column()
     public slug!: string
 
+    @ManyToOne(() => Role, role => role.permissions)
+    public roles: Role[]
+
+    // TIMESTAMPS
     @Column()
     @CreateDateColumn()
     public createdAt?: Date

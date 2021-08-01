@@ -1,4 +1,8 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm"
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm"
+import { User } from "../users/User"
+import { Ingredient } from "./Ingredient"
+import { School } from "./School"
+import { Variable } from "./Variable"
 
 @Entity()
 export class Spell {
@@ -25,6 +29,20 @@ export class Spell {
     @Column()
     public public?: boolean
 
+    // LINKED ENTITIES
+    @ManyToMany(() => School, school => school.spells)
+    public schools?: School[]
+
+    @ManyToMany(() => Variable, variable => variable.spells)
+    public variables?: Variable[]
+
+    @ManyToMany(() => Ingredient, ingredient => ingredient.spells)
+    public ingredients?: Ingredient[]
+
+    @ManyToOne(() => User, user => user.spells)
+    public creator: User
+
+    // TIMESTAMPS
     @Column()
     @CreateDateColumn()
     public createdAt?: Date

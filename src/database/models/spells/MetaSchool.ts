@@ -1,4 +1,6 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm"
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm"
+import { User } from "../users/User"
+import { School } from "./School"
 
 @Entity()
 export class MetaSchool {
@@ -13,6 +15,13 @@ export class MetaSchool {
     @Column()
     public published: boolean
 
+    @OneToMany(() => School, school => school.metaSchool)
+    public schools?: School[]
+
+    @ManyToOne(() => User, user => user.metaSchools)
+    public creator: User
+
+    // TIMESTAMPS
     @Column()
     @CreateDateColumn()
     public createdAt?: Date
