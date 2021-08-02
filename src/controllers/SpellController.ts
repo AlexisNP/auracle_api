@@ -1,5 +1,5 @@
 import express from 'express';
-import { getRepository, Repository } from 'typeorm';
+import { getRepository } from 'typeorm';
 import { AuracleApiController } from "../common/classes/AuracleApiController";
 import { AuracleApiResponse } from '../common/classes/AuracleApiResponse';
 import { Spell } from '../database/models/spells/Spell';
