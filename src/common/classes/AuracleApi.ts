@@ -44,8 +44,7 @@ export class AuracleApi {
     }
 
     /**
-     * Links the API with a Sequelize Database Object
-     * @param db_driver A Sequelize instance
+     * Links the API with a TypeORM connection
      */
     private db_connect = async (db_driver: Promise<Connection>) => {
         try {

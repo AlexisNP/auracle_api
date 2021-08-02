@@ -1,21 +1,19 @@
 import express from 'express';
+import { getRepository, Repository } from 'typeorm';
 import { AuracleApiController } from "../common/classes/AuracleApiController";
 import { AuracleApiResponse } from '../common/classes/AuracleApiResponse';
-import { Spell, SpellCreationAttributes } from '../database/models/spells/Spell';
-import { SpellRepository } from "../repositories/SpellRepository";
+import { Spell } from '../database/models/spells/Spell';
 
 export class SpellController extends AuracleApiController {
-    public repository: SpellRepository
-
     constructor() {
-        super(new SpellRepository)
+        super()
     }
 
     public async getAll(req: express.Request, res: express.Response) {
         let spells: Spell[]
 
         try {
-            spells = await this.repository.fetchAll()
+            spells = await getRepository(Spell).find()
             res = new AuracleApiResponse(200, spells).send(res)
         } catch (err) {
             res = new AuracleApiResponse(400).send(res)
@@ -27,7 +25,7 @@ export class SpellController extends AuracleApiController {
         let spell: Spell
 
         try {
-            spell = await this.repository.fetchOne(uuid)
+            spell = await getRepository(Spell).findOne(uuid)
             res = new AuracleApiResponse(200, spell).send(res)
         } catch (err) {
             res = new AuracleApiResponse(400).send(res)
@@ -42,10 +40,10 @@ export class SpellController extends AuracleApiController {
             charge: req.body.charge,
             cost: req.body.cost,
             isRitual: req.body.isRitual
-        } as SpellCreationAttributes
+        }
 
         try {
-            const newSpell = await this.repository.createOne(spell)
+            const newSpell = getRepository(Spell).insert(spell)
             res = new AuracleApiResponse(201, newSpell).send(res)
         } catch (err) {
             console.log(err)

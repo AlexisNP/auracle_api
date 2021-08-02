@@ -1,9 +1,9 @@
-import { AuracleApiRepository } from "./AuracleApiRepository";
+import { getRepository, Repository } from "typeorm";
 
 export class AuracleApiController {
-    public repository: AuracleApiRepository
+    public repository: Repository<any>
 
-    constructor(repository: AuracleApiRepository) {
-        this.repository = repository
+    constructor() {
+        // Todo
     }
 }
