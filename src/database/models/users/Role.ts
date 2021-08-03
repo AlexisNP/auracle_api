@@ -7,10 +7,14 @@ export class Role {
     @PrimaryGeneratedColumn('uuid')
     public readonly uuid!: string
 
-    @Column()
-    public name!: string
-    @Column()
-    public description!: string
+    @Column({
+        unique: true
+    })
+    public name: string
+    @Column({
+        unique: true
+    })
+    public description: string
 
     @OneToMany(() => Permission, permission => permission.roles)
     public permissions: Permission[]

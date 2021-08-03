@@ -9,14 +9,18 @@ export class Spell {
     @PrimaryGeneratedColumn('uuid')
     public readonly uuid!: string
 
-    @Column()
-    public name!: string
+    @Column({
+        unique: true
+    })
+    public name: string
 
-    @Column()
-    public description!: string
+    @Column({
+        unique: true
+    })
+    public description: string
+
     @Column()
     public level?: number
-
     @Column()
     public charge?: number
     @Column()

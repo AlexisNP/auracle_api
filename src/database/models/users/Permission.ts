@@ -6,8 +6,10 @@ export class Permission {
     @PrimaryGeneratedColumn('uuid')
     public readonly uuid!: string
 
-    @Column()
-    public slug!: string
+    @Column({
+        unique: true
+    })
+    public slug: string
 
     @ManyToOne(() => Role, role => role.permissions)
     public roles: Role[]

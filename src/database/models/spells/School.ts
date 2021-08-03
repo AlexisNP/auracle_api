@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm";
 import { User } from "../users/User";
 import { MetaSchool } from "./MetaSchool";
 import { Spell } from "./Spell";
@@ -8,10 +8,14 @@ export class School {
     @PrimaryGeneratedColumn('uuid')
     public readonly uuid!: string
 
-    @Column()
-    public name!: string
-    @Column()
-    public description!: string
+    @Column({
+        unique: true
+    })
+    public name: string
+    @Column({
+        unique: true
+    })
+    public description: string
 
     @Column()
     public published: boolean

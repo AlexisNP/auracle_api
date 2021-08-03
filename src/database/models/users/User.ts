@@ -11,13 +11,15 @@ export class User {
     @PrimaryGeneratedColumn('uuid')
     public readonly uuid!: string
 
+    @Column({
+        unique: true
+    })
+    public readonly mail: string
     @Column()
-    public readonly mail!: string
-    @Column()
-    public readonly password!: string
+    public readonly password: string
 
     @Column()
-    public name!: string
+    public name: string
     @Column()
     public avatar: string
     @Column()

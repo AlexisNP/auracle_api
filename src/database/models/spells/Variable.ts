@@ -7,8 +7,10 @@ export class Variable {
     @PrimaryGeneratedColumn('uuid')
     public readonly uuid!: string
 
-    @Column()
-    public description!: string
+    @Column({
+        unique: true
+    })
+    public description: string
 
     @Column()
     public published: boolean
