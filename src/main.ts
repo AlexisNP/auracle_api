@@ -22,7 +22,7 @@ import { SpellRouter } from './routes/SpellRouter';
 
 const apiPort = process.env.API_PORT
 
-const app = new AuracleApi({
+const api = new AuracleApi({
     port: apiPort,
     database: AuracleDatabaseDriver,
 
@@ -36,6 +36,3 @@ const app = new AuracleApi({
         helmet()
     ],
 })
-
-// Listens on apiPort...
-app.listen()
