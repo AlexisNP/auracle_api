@@ -2,23 +2,57 @@ import express, { Application } from 'express'
 import { Connection } from 'typeorm'
 import { VSColors } from '../enums/VSColors'
 import { AuracleApiRouter } from './AuracleApiRouter'
+
+/**
+ * AuracleApi is the main class handling all the routing, modules and middlewares.
+ * The 
+ * Once the constructor is called, it automatically listens on the given port.
+ */
 export class AuracleApi {
+    /**
+     * Express core App.
+     */
     public app: Application
-    public port: number
+
+    /**
+     * The port where the Express app is running on.
+     * @default 3000
+     */
+    public port = 3000
+
+    /**
+     * Current version of the API.
+     *
+     * The usual format follows after `v1`
+     */
     public version = 'v1'
-    public baseUrl = `/api/${this.version}/`
+
+    /**
+     * Base URI to access the various endpoints of the Express App.
+     *
+     * The usual format follows
+     * ```javascript
+     * /api/${this.version}/
+     * ```
+     */
+    public baseUri = `/api/${this.version}/`
 
     constructor(
         init: {
-            port: any
             database: Promise<Connection>
+            port?: any
             routers?: Array<AuracleApiRouter>
             modules?: Array<any>
             middlewares?: Array<any>
         }
     ) {
         this.app = express()
-        this.port = Number(init.port)
+
+        if (init.port) {
+            this.port = Number(init.port)
+        }
+
+        console.log(VSColors.cyan, `[INFO] Running in a ${process.env.NODE_ENV} environment.`)
 
         // Making sure the DB is up before init routers, modules, etc...
         if (init.database) {
@@ -43,15 +77,18 @@ export class AuracleApi {
     private async connectDatabase(db_driver: Promise<Connection>) {
         try {
             // Tries to connect...
+            console.info(VSColors.yellow, '[TASK] Trying to connect to the database...')
             const connection = await db_driver
-            console.info(VSColors.cyan, '[INFO] Connection has been established successfully.')
+            console.info(VSColors.green, '[SUCCESS] Connection has been established successfully.')
 
             // Should the DB be rebuilt ? Are we in production ?
-            const dropDatabase = (process.env.NODE_ENV === 'production') ? true : false
+            const dropDatabase = (process.env.NODE_ENV === 'prod') ? false : true
 
             // Then builds the data schema from registered entities...
+            console.info(VSColors.yellow, '[TASK] Syncing database and its schemas...')
             await connection.synchronize(dropDatabase)
-            console.info(VSColors.cyan, '[INFO] Database schemas have been generated successfully.')
+            console.info(VSColors.green, '[SUCCESS] Syncing done.')
+
 
             return connection
         } catch (err) {
@@ -97,7 +134,7 @@ export class AuracleApi {
      */
     private async routers(routers: Array<AuracleApiRouter>) {
         try {
-            routers.forEach(router => this.app.use(`${this.baseUrl}`, router.instance))
+            routers.forEach(router => this.app.use(`${this.baseUri}`, router.instance))
         } catch (err) {
             console.error(VSColors.red, '[ERROR] Unable to initialize routers.')
             throw err
@@ -119,6 +156,6 @@ export class AuracleApi {
      * Allows the App to run on its given port
      */
     public listen() {
-        this.app.listen(this.port, () => console.info(VSColors.green, `App listening on port ${this.port} !`))
+        this.app.listen(this.port, () => console.info(VSColors.green, `\n[APP] App listening on http://localhost${this.baseUri}.`))
     }
 }

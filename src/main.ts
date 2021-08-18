@@ -6,8 +6,6 @@
 import * as dotenv from 'dotenv'
 dotenv.config();
 
-// Packages
-
 // TypeORM
 import "reflect-metadata";
 
@@ -23,8 +21,8 @@ import { SpellRouter } from './routes/SpellRouter';
 const apiPort = process.env.API_PORT
 
 const api = new AuracleApi({
-    port: apiPort,
     database: AuracleDatabaseDriver,
+    port: apiPort,
 
     middlewares: [],
     routers: [
