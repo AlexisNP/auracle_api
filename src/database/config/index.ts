@@ -2,15 +2,6 @@ import { MysqlConnectionOptions } from "typeorm/driver/mysql/MysqlConnectionOpti
 
 import * as fs from 'fs'
 
-import { Spell } from "../models/spells/Spell"
-import { School } from "../models/spells/School"
-import { Variable } from "../models/spells/Variable"
-import { Ingredient } from "../models/spells/Ingredient"
-import { MetaSchool } from "../models/spells/MetaSchool"
-import { User } from "../models/users/User"
-import { Permission } from "../models/users/Permission"
-import { Role } from "../models/users/Role"
-
 const tablePrefix = 'au_'
 
 /**
