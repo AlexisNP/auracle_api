@@ -1,4 +1,5 @@
 import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm"
+import { AuracleApiModel } from "../../../common/classes/AuracleApiModel"
 import { Ingredient } from "../spells/Ingredient"
 import { MetaSchool } from "../spells/MetaSchool"
 import { School } from "../spells/School"
@@ -7,7 +8,7 @@ import { Variable } from "../spells/Variable"
 import { Role } from "./Role"
 
 @Entity()
-export class User {
+export class User extends AuracleApiModel {
     @PrimaryGeneratedColumn('uuid')
     public readonly uuid!: string
 

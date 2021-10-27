@@ -1,9 +1,10 @@
 import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { AuracleApiModel } from "../../../common/classes/AuracleApiModel";
 import { User } from "../users/User";
 import { Spell } from "./Spell";
 
 @Entity()
-export class Ingredient {
+export class Ingredient extends AuracleApiModel {
     @PrimaryGeneratedColumn('uuid')
     public readonly uuid!: string
 
